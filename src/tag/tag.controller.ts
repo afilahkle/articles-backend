@@ -1,4 +1,9 @@
-import { Controller } from '@nestjs/common';
+import { Get, Controller } from '@nestjs/common';
 
-@Controller()
-export class TagController {}
+@Controller('api')
+export class TagController {
+  @Get('tags')
+  findAll() {
+    return ['javascript', 'nodejs'];
+  }
+}
