@@ -20,7 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        // entities: [],
+        entities: [__dirname + '/**/*.entity.{ts,js}'],
         autoLoadEntities: true, // don't add this in production.
         synchronize: true, // don't add this in production. 
       }),
