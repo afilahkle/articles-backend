@@ -1,2 +1,11 @@
 ### Test /api/users route
 POST http://localhost:8000/api/users
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "example",
+    "email": "example@example.com",
+    "password": "example"
+  }
+}
