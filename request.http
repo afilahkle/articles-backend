@@ -1,0 +1,2 @@
+### Test /api/users route
+POST http://localhost:8000/api/users
