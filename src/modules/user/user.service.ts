@@ -19,7 +19,6 @@ export class UserService {
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const newUser = new UserEntity();
     Object.assign(newUser, createUserDto);
-    console.log(this.configService.get('JWT_SECRET'))
     return this.userRepository.save(newUser);
   }
 
