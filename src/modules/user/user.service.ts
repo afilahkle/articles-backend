@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 import { UserResponseInterface } from './types/userResponse.interface';
+import { LoginUserDto } from './dtos/loginUser.dto';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -35,6 +37,25 @@ export class UserService {
     const newUser = new UserEntity();
     Object.assign(newUser, createUserDto);
     return this.userRepository.save(newUser);
+  }
+
+  async loginUser(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: loginUserDto.email,
+      }
+    });
+
+    if(!user) {
+      throw new HttpException('Credentials are not valid', HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+      
+    if(!await compare(loginUserDto.password, (await user).password)) {
+      throw new HttpException('Credentials are not valid', HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    delete user.password;
+    return user;
   }
 
   generateJwt(user: UserEntity): string {
