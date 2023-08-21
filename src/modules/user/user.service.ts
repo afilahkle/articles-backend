@@ -39,6 +39,17 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
+  async findById(id: number): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id
+      }
+    });
+
+    delete user.password;
+    return user;
+  }
+
   async loginUser(loginUserDto: LoginUserDto): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
