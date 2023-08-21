@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AuthMiddleware } from './modules/user/middlewares/auth.middleware';
+import { ArticleModule } from './modules/article/article.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { AuthMiddleware } from './modules/user/middlewares/auth.middleware';
       }),
     }),
     TagModule,
-    UserModule
+    UserModule,
+    ArticleModule
   ],
   controllers: [AppController],
   providers: [AppService],
