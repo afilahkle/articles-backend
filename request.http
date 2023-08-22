@@ -24,3 +24,7 @@ Content-Type: application/json
 ### Test /api/user route
 GET http://localhost:8000/api/user
 Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJleGFtcGxlIiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjkyNDUyMTM2fQ.Q65RUliKq-0mlrNEkpypeJHc8tZsqi87SHTA0lHT5Fs
+
+
+### Test /api/article route
+POST http://localhost:8000/api/articles
