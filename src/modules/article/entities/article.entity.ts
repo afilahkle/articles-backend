@@ -1,4 +1,5 @@
-import { BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { UserEntity } from "src/modules/user/entities/user.entity";
+import { BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: 'articles'})
 export class ArticleEntity {
@@ -15,7 +16,7 @@ export class ArticleEntity {
   description: string;
 
   @Column({ default: '' })
-  boyd: string;
+  bio: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   createdAt: Date;
@@ -33,4 +34,7 @@ export class ArticleEntity {
   updateTimestamp() {
     this.updatedAt = new Date();
   }
+
+  @ManyToOne( () => UserEntity, (user) => {user.articles})
+  author: UserEntity;
 }
