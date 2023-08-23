@@ -16,7 +16,7 @@ export class ArticleEntity {
   description: string;
 
   @Column({ default: '' })
-  bio: string;
+  body: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   createdAt: Date;
