@@ -22,11 +22,7 @@ export class ArticleService {
     }
 
     article.slug = 'foo'; // just for testing
-
     article.author = currentUser;
-    
-    console.log(article);
     return await this.articleRepository.save(article);
-  
   }
 }
