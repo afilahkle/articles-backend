@@ -44,7 +44,7 @@ export class ArticleService {
       throw new HttpException('Article does not exist', HttpStatus.NOT_FOUND)
     }
 
-    if (article.author.id === currentUserId) {
+    if (article.author.id !== currentUserId) {
       throw new HttpException('Your are not the author', HttpStatus.FORBIDDEN)
     }
 
