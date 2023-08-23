@@ -27,6 +27,15 @@ export class ArticleService {
     return await this.articleRepository.save(article);
   }
 
+  async findBySlug(slug: string): Promise<ArticleEntity> {
+   return  await this.articleRepository.findOne({
+      where: {
+        slug
+      }
+    })
+
+  }
+
   getSlug(title: string): string {
     const randomString = (Math.random() * Math.pow(36, 6) | 0).toString(36)
     return slugify(title, {lower: true}) + '-' + randomString
