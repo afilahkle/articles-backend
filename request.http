@@ -39,3 +39,6 @@ Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbW
     "tagList": ["react"]
   }
 }
+
+### Test /api/articles/:slug route
+GET http://localhost:8000/api/articles/example-ujbyui
