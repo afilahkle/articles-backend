@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from './entities/article.entity';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../user/entities/user.entity';
+import { ArticleResponseInterface } from './types/articleResponse.interface';
 import slugify from 'slugify';
 
 @Injectable()
@@ -39,5 +40,11 @@ export class ArticleService {
   getSlug(title: string): string {
     const randomString = (Math.random() * Math.pow(36, 6) | 0).toString(36)
     return slugify(title, {lower: true}) + '-' + randomString
+  }
+
+  buildArticleResponse(article: ArticleEntity): ArticleResponseInterface {
+    return {
+      article
+    }
   }
 }
