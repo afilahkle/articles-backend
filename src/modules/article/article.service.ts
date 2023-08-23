@@ -13,7 +13,7 @@ export class ArticleService {
   ){
   }
 
-  async createArticle (currentUser: UserEntity, createArticleDto: CreateArticleDto): Promise<any> {
+  async createArticle (currentUser: UserEntity, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
     const article = new ArticleEntity();
     Object.assign(article, createArticleDto)
 
