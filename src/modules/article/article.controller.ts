@@ -33,5 +33,17 @@ export class ArticleController {
     @User('id') currentUserId: number,
     @Param('slug') slug: string) {
      return await this.articleService.deleteSingleArticle(slug, currentUserId) 
-    } 
+  } 
+
+  @Put(':slug')
+  @UseGuards(AuthGuard)
+  @UsePipes(new ValidationPipe())
+  async updateSingleArticle(
+    @User('id') currentUserId: number,
+    @Param('slug') slug: string,
+    @Body('article') updateArticleDto: CreateArticleDto
+    ): Promise<ArticleResponseInterface> {
+      const article = await this.articleService.updateSingleArticle(slug, currentUserId, updateArticleDto);
+      return await this.articleService.buildArticleResponse(article);
+  }
 }
