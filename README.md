@@ -1,73 +1,239 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Endpoints
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Authentication Header:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+You can read the authentication header from the headers of the request
 
-## Description
+`Authorization: Token jwt.token.here`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Authentication:
 
-## Installation
+`POST /api/users/login`
 
-```bash
-$ npm install
+Example request body:
+
+```JSON
+{
+  "user":{
+    "email": "jake@jake.jake",
+    "password": "jakejake"
+  }
+}
 ```
 
-## Running the app
+No authentication required, returns a [User](/specs/backend-specs/api-response-format.md#users-for-authentication)
 
-```bash
-# development
-$ npm run start
+Required fields: `email`, `password`
 
-# watch mode
-$ npm run start:dev
+### Registration:
 
-# production mode
-$ npm run start:prod
+`POST /api/users`
+
+Example request body:
+
+```JSON
+{
+  "user":{
+    "username": "Jacob",
+    "email": "jake@jake.jake",
+    "password": "jakejake"
+  }
+}
 ```
 
-## Test
+No authentication required, returns a [User](/specs/backend-specs/api-response-format.md#users-for-authentication)
 
-```bash
-# unit tests
-$ npm run test
+Required fields: `email`, `username`, `password`
 
-# e2e tests
-$ npm run test:e2e
+### Get Current User
 
-# test coverage
-$ npm run test:cov
+`GET /api/user`
+
+Authentication required, returns a [User](/specs/backend-specs/api-response-format.md#users-for-authentication) that's the current user
+
+### Update User
+
+`PUT /api/user`
+
+Example request body:
+
+```JSON
+{
+  "user":{
+    "email": "jake@jake.jake",
+    "bio": "I like to skateboard",
+    "image": "https://i.stack.imgur.com/xHWG8.jpg"
+  }
+}
 ```
 
-## Support
+Authentication required, returns the [User](/specs/backend-specs/api-response-format.md#users-for-authentication)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Accepted fields: `email`, `username`, `password`, `image`, `bio`
 
-## Stay in touch
+### Get Profile
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+`GET /api/profiles/:username`
 
-## License
+Authentication optional, returns a [Profile](/specs/backend-specs/api-response-format.md#profile)
 
-Nest is [MIT licensed](LICENSE).
+### Follow user
+
+`POST /api/profiles/:username/follow`
+
+Authentication required, returns a [Profile](/specs/backend-specs/api-response-format.md#profile)
+
+No additional parameters required
+
+### Unfollow user
+
+`DELETE /api/profiles/:username/follow`
+
+Authentication required, returns a [Profile](/specs/backend-specs/api-response-format.md#profile)
+
+No additional parameters required
+
+### List Articles
+
+`GET /api/articles`
+
+Returns most recent articles globally by default, provide `tag`, `author` or `favorited` query parameter to filter results
+
+Query Parameters:
+
+Filter by tag:
+
+`?tag=AngularJS`
+
+Filter by author:
+
+`?author=jake`
+
+Favorited by user:
+
+`?favorited=jake`
+
+Limit number of articles (default is 20):
+
+`?limit=20`
+
+Offset/skip number of articles (default is 0):
+
+`?offset=0`
+
+Authentication optional, will return [multiple articles](/specs/backend-specs/api-response-format.md#multiple-articles), ordered by most recent first
+
+### Feed Articles
+
+`GET /api/articles/feed`
+
+Can also take `limit` and `offset` query parameters like [List Articles](/specs/backend-specs/api-response-format.md#list-articles)
+
+Authentication required, will return [multiple articles](/specs/backend-specs/api-response-format.md#multiple-articles) created by followed users, ordered by most recent first.
+
+### Get Article
+
+`GET /api/articles/:slug`
+
+No authentication required, will return [single article](/specs/backend-specs/api-response-format.md#single-article)
+
+### Create Article
+
+`POST /api/articles`
+
+Example request body:
+
+```JSON
+{
+  "article": {
+    "title": "How to train your dragon",
+    "description": "Ever wonder how?",
+    "body": "You have to believe",
+    "tagList": ["reactjs", "angularjs", "dragons"]
+  }
+}
+```
+
+Authentication required, will return an [Article](/specs/backend-specs/api-response-format.md#single-article)
+
+Required fields: `title`, `description`, `body`
+
+Optional fields: `tagList` as an array of Strings
+
+### Update Article
+
+`PUT /api/articles/:slug`
+
+Example request body:
+
+```JSON
+{
+  "article": {
+    "title": "Did you train your dragon?"
+  }
+}
+```
+
+Authentication required, returns the updated [Article](/specs/backend-specs/api-response-format.md#single-article)
+
+Optional fields: `title`, `description`, `body`
+
+The `slug` also gets updated when the `title` is changed
+
+### Delete Article
+
+`DELETE /api/articles/:slug`
+
+Authentication required
+
+### Add Comments to an Article
+
+`POST /api/articles/:slug/comments`
+
+Example request body:
+
+```JSON
+{
+  "comment": {
+    "body": "His name was my name too."
+  }
+}
+```
+
+Authentication required, returns the created [Comment](/specs/backend-specs/api-response-format.md#single-comment)
+
+Required field: `body`
+
+### Get Comments from an Article
+
+`GET /api/articles/:slug/comments`
+
+Authentication optional, returns [multiple comments](/specs/backend-specs/api-response-format.md#multiple-comments)
+
+### Delete Comment
+
+`DELETE /api/articles/:slug/comments/:id`
+
+Authentication required
+
+### Favorite Article
+
+`POST /api/articles/:slug/favorite`
+
+Authentication required, returns the [Article](/specs/backend-specs/api-response-format.md#single-article)
+
+No additional parameters required
+
+### Unfavorite Article
+
+`DELETE /api/articles/:slug/favorite`
+
+Authentication required, returns the [Article](/specs/backend-specs/api-response-format.md#single-article)
+
+No additional parameters required
+
+### Get Tags
+
+`GET /api/tags`
+
+No authentication required, returns a [List of Tags](/specs/backend-specs/api-response-format.md#list-of-tags)
