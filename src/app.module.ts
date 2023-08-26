@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AuthMiddleware } from './modules/user/middlewares/auth.middleware';
 import { ArticleModule } from './modules/article/article.module';
+import { AppDataSource } from './config/appDataSource';
 
 @Module({
   imports: [
@@ -15,18 +16,7 @@ import { ArticleModule } from './modules/article/article.module';
       envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        entities: [__dirname + '/**/*.entity.{ts,js}'],
-        autoLoadEntities: true, // don't add this in production.
-        synchronize: true, // don't add this in production. 
-      }),
+      useClass: AppDataSource,
     }),
     TagModule,
     UserModule,
