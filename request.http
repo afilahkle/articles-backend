@@ -42,3 +42,6 @@ Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbW
 
 ### Test /api/articles/:slug route
 GET http://localhost:8000/api/articles/example-ujbyui
+
+### Test /api/articles get request
+GET http://localhost:8000/api/articles?author=example&limit=2&offset=10
