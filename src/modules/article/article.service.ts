@@ -21,9 +21,7 @@ export class ArticleService {
 
   async findAll(currentUserId: number, query: any): Promise<ArticlesResponseInterface> {
     const queryBuilder = this.entityManager.getRepository(ArticleEntity).createQueryBuilder('articles').leftJoinAndSelect('articles.author', 'author');
-    const articlesCount = await queryBuilder.getCount();
-
-    queryBuilder.orderBy('articles.createdAt', 'DESC');
+    
 
     if(query.tag) {
       queryBuilder.andWhere('articles.tagList LIKE :tag', {
@@ -43,6 +41,27 @@ export class ArticleService {
       })
     }
 
+    if(query.favorited) {
+      const author = await this.userRepository.findOne({
+        relations: ['favorites'],
+        where: {
+          username: query.favorited
+        },
+      });
+
+      const ids = author.favorites.map(el => el.id) 
+
+      if (ids.length > 0) {
+        queryBuilder.andWhere('articles.authorId IN (:...ids)', {ids});
+      } else {
+        queryBuilder.andWhere('1=0')
+      }
+    }
+
+    queryBuilder.orderBy('articles.createdAt', 'DESC');
+
+    const articlesCount = await queryBuilder.getCount();
+
     if (query.offset) {
       queryBuilder.offset(query.offset);
     }
@@ -51,9 +70,25 @@ export class ArticleService {
       queryBuilder.limit(query.limit);
     }
     
-    const articles = await queryBuilder.getMany();
+    let favoriteIds: number[] = [];
 
-    return {articles, articlesCount}
+    if (currentUserId) {
+      const currentUser = await this.userRepository.findOne({
+        relations: ['favorites'], 
+        where: {
+          id: currentUserId
+        }
+      })
+      favoriteIds = currentUser.favorites.map(favorite => favorite.id);
+    }
+
+    const articles = await queryBuilder.getMany();
+    const articlesWithFavorited = articles.map(article => {
+      const favorited = favoriteIds.includes(article.id)
+      return {...article, favorited}
+    })
+
+    return {articles: articlesWithFavorited, articlesCount}
   }
 
   async createArticle (currentUser: UserEntity, createArticleDto: CreateArticleDto): Promise<ArticleEntity> {
