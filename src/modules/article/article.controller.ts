@@ -50,6 +50,6 @@ export class ArticleController {
     @Body('article') updateArticleDto: CreateArticleDto
     ): Promise<ArticleResponseInterface> {
       const article = await this.articleService.updateSingleArticle(slug, currentUserId, updateArticleDto);
-      return await this.articleService.buildArticleResponse(article);
+      return this.articleService.buildArticleResponse(article);
   }
 }
