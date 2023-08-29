@@ -67,3 +67,7 @@ Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbW
 ### Test /api/:username/follow Delete request
 DELETE http://localhost:8000/api/profiles/foo/follow
 Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJleGFtcGxlIiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjkyNDUyMTM2fQ.Q65RUliKq-0mlrNEkpypeJHc8tZsqi87SHTA0lHT5Fs
+
+### Test /api/articles/feed request
+GET http://localhost:8000/api/articles/feed
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJleGFtcGxlIiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjkyNDUyMTM2fQ.Q65RUliKq-0mlrNEkpypeJHc8tZsqi87SHTA0lHT5Fs
