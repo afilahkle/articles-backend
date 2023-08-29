@@ -63,3 +63,7 @@ GET http://localhost:8000/api/profiles/example
 ### Test /api/:username/follow post request
 POST http://localhost:8000/api/profiles/foo/follow
 Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJleGFtcGxlIiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjkyNDUyMTM2fQ.Q65RUliKq-0mlrNEkpypeJHc8tZsqi87SHTA0lHT5Fs
+
+### Test /api/:username/follow Delete request
+DELETE http://localhost:8000/api/profiles/foo/follow
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJleGFtcGxlIiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaWF0IjoxNjkyNDUyMTM2fQ.Q65RUliKq-0mlrNEkpypeJHc8tZsqi87SHTA0lHT5Fs
