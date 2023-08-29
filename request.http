@@ -56,3 +56,6 @@ Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbW
 
 ### Test /api/articles get request
 GET http://localhost:8000/api/articles?favorited=example
+
+### Test /api/profiles get request
+GET http://localhost:8000/api/profiles/example
