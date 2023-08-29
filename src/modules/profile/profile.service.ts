@@ -28,9 +28,16 @@ export class ProfileService {
       throw new HttpException('Profile does not exit', HttpStatus.NOT_FOUND)
     }
 
+    const follow = this.followRepository.findOne({
+      where: {
+        followerId: currentUserId,
+        followingId: user.id
+      }
+    })
+
     return {
       ...user,
-      following: false
+      following: Boolean(follow)
     }
   }
 
